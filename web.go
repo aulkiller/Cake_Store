@@ -22,14 +22,15 @@ type WebService struct {
 
 func (ws *WebService) Init() {
 	var err error
-	ws.DB, err = sql.Open("mysql", "user:password@(127.0.0.1:3306)/cake_store_db?parseTime=true")
+
+	ws.DB, err = sql.Open("mysql", "user:password@tcp(mysql_container)/cake_store_db?parseTime=True")
 	if err != nil {
 		panic("error: " + err.Error())
 	}
 
 	m, err := migrate.New(
 		"file://db/migration",
-		"mysql://user:password@(127.0.0.1:3306)/cake_store_db?parseTime=true")
+		"mysql://user:password@tcp(mysql_container)/cake_store_db?parseTime=True")
 
 	if err != nil {
 		panic("error: " + err.Error())

@@ -7,8 +7,8 @@ Pre-Requirement:
 2. Able to run go & docker in terminal
 
 How to Run:
-1. Open terminal and Run "docker-compose up -d"
-2. In the same terminal Run "go run ."
+1. Build Image from Dockerfile in this repository
+2. Run container based from previous image 
 3. Access the Cakes endpoint via http://localhost:8080/cakes
 
 To-Do:

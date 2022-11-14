@@ -1,18 +1,44 @@
-version: '3.3'
+version: '3.9'
 services:
-  db:
-    image: mysql:5.7
-    restart: always
+  app:
+    container_name: golang_container
     environment:
-      MYSQL_DATABASE: 'cake_store_db'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+    tty: true
+    build: .
+    ports:
+      - 8080:8080
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - database
+    networks:
+      - cakestore
+
+  database:
+    image: mysql:5.7
+    container_name: mysql_container
+    environment:
+      - MYSQL_ROOT_HOST=${DB_HOST} 
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
     ports:
       - '3306:3306'
-    expose:
-      - '3306'
+    networks:
+      - cakestore
     volumes:
       - my-db:/var/lib/mysql
+
 volumes:
-  my-db:
+  my-db:     
+
+networks:
+  cakestore:
+    driver: bridge
