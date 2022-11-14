@@ -1,2 +1,2 @@
-# Cake_Store
+# Cake Store
 Cake Store RESTFul API Service
